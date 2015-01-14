@@ -27,9 +27,11 @@ public class Room : MonoBehaviour {
 
     // Get world position of bottom left corner
     Vector3 bottomLeft = Vector3.zero;
+
+    Array.Reverse(rows);
     
-    for (xOff = 0; xOff <= 9; xOff++) {
-      for (yOff = 0; yOff <= 9; yOff++) {
+    for (yOff = 0; yOff <= 9; yOff++) {
+      for (xOff = 0; xOff <= 9; xOff++) {
 
         char blockCode = rows[yOff][xOff];
 
