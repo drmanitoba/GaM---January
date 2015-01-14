@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Room : MonoBehaviour {
   
   [SerializeField]
   private Tile mainTilePrefab;
-
   private Bounds bounds;
 
   public Bounds RoomBounds {
@@ -13,48 +13,47 @@ public class Room : MonoBehaviour {
   }
 
   void Awake() {
-    bounds = new Bounds (Vector3.zero, Vector3.zero);
-    BuildRoom ();
+    bounds = new Bounds(Vector3.zero, Vector3.zero);
   }
 
   void OnDrawGizmos() {
     Gizmos.DrawWireCube(transform.position + bounds.center, bounds.size);
   }
 
-  public void BuildRoom() {
-    
-    for (int i = 0; i <= 9; i++) {
-      
-      // Get world position of bottom left corner
-      Vector3 bottomLeft = Vector3.zero;
-      
-      // Normalize position of block
-      Vector3 blockOrigin = new Vector3 (bottomLeft.x + (mainTilePrefab.Width / 2), bottomLeft.y + (mainTilePrefab.Height / 2), 0);
-      blockOrigin.x += i * (mainTilePrefab.Width);
-      
-      Tile tile = (Tile)Instantiate (mainTilePrefab, blockOrigin, Quaternion.identity);
-      
-      tile.transform.parent = transform;
-    }
-    
-    for (int i = 0; i <= 9; i++) {
+  public void BuildRoom(string[] rows) {
 
-      // Get world position of top left corner
-      Vector3 topLeft = new Vector3 (0, 10, 0);
+    int xOff;
+    int yOff;
+
+    // Get world position of bottom left corner
+    Vector3 bottomLeft = Vector3.zero;
+    
+    for (xOff = 0; xOff <= 9; xOff++) {
+      for (yOff = 0; yOff <= 9; yOff++) {
+
+        char blockCode = rows[yOff][xOff];
+
+        if (blockCode == '0') {
+          continue;
+        }
+
+        if (blockCode == '1') {
+          // Normalize position of block
+          Vector3 blockOrigin = new Vector3(bottomLeft.x + (mainTilePrefab.Width / 2), bottomLeft.y + (mainTilePrefab.Height / 2), 0);
+          blockOrigin.x += xOff * mainTilePrefab.Width;
+          blockOrigin.y += yOff * mainTilePrefab.Height;
       
-      // Normalize position of block
-      Vector3 blockOrigin = new Vector3 (topLeft.x + (mainTilePrefab.Width / 2), topLeft.y + -(mainTilePrefab.Height / 2), 0);
-      blockOrigin.x += i * (mainTilePrefab.Width);
+          Tile tile = (Tile)Instantiate(mainTilePrefab, blockOrigin, Quaternion.identity);
       
-      Tile tile = (Tile)Instantiate (mainTilePrefab, blockOrigin, Quaternion.identity);
-      
-      tile.transform.parent = transform;
+          tile.transform.parent = transform;
+        }
+      }
     }
 
     // Set room bounds to enacpsulate whole room
-    Renderer[] renderers = GetComponentsInChildren<Renderer> ();
+    Renderer[] renderers = GetComponentsInChildren<Renderer>();
     foreach (Renderer renderer in renderers) {
-      bounds.Encapsulate (renderer.bounds);
+      bounds.Encapsulate(renderer.bounds);
     }
   }
 }

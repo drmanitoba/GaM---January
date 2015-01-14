@@ -33,7 +33,6 @@ public class DisplayObject : MonoBehaviour {
       } else {
         return renderer.bounds.size.x;
       }
-      return 0f;
     }
   }
 
@@ -44,7 +43,6 @@ public class DisplayObject : MonoBehaviour {
       } else {
         return renderer.bounds.size.y;
       }
-      return 0f;
     }
   }
 
