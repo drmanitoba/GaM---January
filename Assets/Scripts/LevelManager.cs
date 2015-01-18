@@ -14,32 +14,35 @@ public class LevelManager : MonoBehaviour {
 
   private List<string[]> roomSeeds;
 
+  private List<Room> rooms;
+
+  private Bounds levelBounds;
+
+  public Bounds LevelBounds {
+    get { return levelBounds; }
+  }
+
   // Use this for initialization
   void Start() {
 
+    levelBounds = new Bounds(Vector3.zero, Vector3.zero);
+
     roomSeeds = new List<string[]>();
+    rooms = new List<Room>();
 
-    ReadRooms();
+    readRooms();
+    initLevel();
+  }
 
-    Room room1 = (Room)Instantiate(roomPrefab, Vector3.zero, Quaternion.identity);
-    Room room2 = (Room)Instantiate(roomPrefab, Vector3.zero, Quaternion.identity);
-//    Room room3 = (Room)Instantiate(roomPrefab, Vector3.zero, Quaternion.identity);
-
-    room1.BuildRoom(roomSeeds[0]);
-    room2.BuildRoom(roomSeeds[1]);
-
-    room1.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 1));
-    room2.transform.position = room1.transform.position;
-    room2.transform.position += new Vector3(room1.RoomBounds.size.x, 0, 0);
-//    room3.transform.position = room2.transform.position;
-//    room3.transform.position += new Vector3(room1.RoomBounds.size.x, 0, 0);
+  void OnDrawGizmos() {
+    Gizmos.DrawWireCube(transform.position + levelBounds.center, levelBounds.size);
   }
   
   // Update is called once per frame
   void Update() {
   }
 
-  private void ReadRooms() {
+  private void readRooms() {
     string roomSeed = File.ReadAllText(Application.dataPath + "/Levels/" + fileName);
     string[] separators = {"\n\n", "\r\r", "\r\n\r\n"};
     string[] rooms = roomSeed.Split(separators,
@@ -52,7 +55,47 @@ public class LevelManager : MonoBehaviour {
                      .Where(x => !string.IsNullOrEmpty(x))
                      .ToArray();
 
+      
+      Array.Reverse(roomRows);
+
       roomSeeds.Add(roomRows);
+    }
+  }
+
+  private void initLevel() {
+    int startingRooms = 5;
+
+    for (int i = 0; i <= startingRooms; i++) {
+      float rand = UnityEngine.Random.value;
+      
+      int randIdx = (int)(rand * roomSeeds.Count);
+
+      int previousIdx = i > 0 ? i - 1 : 0;
+
+      Vector3 roomPosition;
+      Room previousRoom;
+
+      Room room = (Room)Instantiate(roomPrefab);
+
+      if (i == 0) {
+        previousRoom = room;
+        roomPosition = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 1));
+      } else {
+        previousRoom = rooms[previousIdx];
+        roomPosition = previousRoom.transform.position + new Vector3(previousRoom.RoomBounds.size.x, 0, 0);
+      }
+
+      rooms.Add(room);
+
+      room.BuildRoom(roomSeeds[randIdx]);
+
+      room.transform.position = roomPosition;
+      room.transform.parent = transform;
+    }
+
+    Renderer[] renderers = GetComponentsInChildren<Renderer>();
+    foreach (Renderer renderer in renderers) {
+      levelBounds.Encapsulate(renderer.bounds);
     }
   }
 }

@@ -2,10 +2,10 @@ fileFormatVersion: 2
 guid: c59819138d9824a59bd759e7c3d579d3
 TextureImporter:
   fileIDToRecycleName:
-    21300000: spritesheet_0
-    21300002: DirtBlockLeftEdge
-    21300004: DirtBlockMain
-    21300006: DirtBlockRightEdge
+    21300000: DirtColumnTop
+    21300002: DirtPlatformLeft
+    21300004: DirtPlatformMid
+    21300006: DirtPlatformRight
     21300008: spritesheet_4
     21300010: spritesheet_5
     21300012: spritesheet_6
@@ -32,7 +32,7 @@ TextureImporter:
     21300054: player11
     21300056: spritesheet_28
     21300058: spritesheet_29
-    21300060: spritesheet_30
+    21300060: DirtBlock
     21300062: spritesheet_31
     21300064: spritesheet_32
     21300066: spritesheet_33
@@ -869,17 +869,17 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: spritesheet_0
+    - name: DirtColumnTop
       rect:
         serializedVersion: 2
-        x: 2
+        x: 25
         y: 669
-        width: 44
+        width: 21
         height: 21
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: DirtBlockLeftEdge
+    - name: DirtPlatformLeft
       rect:
         serializedVersion: 2
         x: 48
@@ -889,7 +889,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: DirtBlockMain
+    - name: DirtPlatformMid
       rect:
         serializedVersion: 2
         x: 71
@@ -899,7 +899,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: DirtBlockRightEdge
+    - name: DirtPlatformRight
       rect:
         serializedVersion: 2
         x: 94
@@ -1169,7 +1169,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: spritesheet_30
+    - name: DirtBlock
       rect:
         serializedVersion: 2
         x: 48
