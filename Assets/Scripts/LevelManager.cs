@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using System.Linq;
+using MiniJSON;
 
 public class LevelManager : MonoBehaviour {
 
+  public delegate void LevelInit();
+  public static event LevelInit OnLevelInit;
+
   [SerializeField]
   private Room roomPrefab;
-
   private string fileName = "LevelsTest.txt";
-
   private List<string[]> roomSeeds;
-
   private List<Room> rooms;
-
   private Bounds levelBounds;
 
   public Bounds LevelBounds {
@@ -32,6 +32,11 @@ public class LevelManager : MonoBehaviour {
 
     readRooms();
     initLevel();
+
+    if (OnLevelInit != null) {
+      OnLevelInit();
+    }
+//    var dict = Json.Deserialize(jsonString) as Dictionary<string,object>;
   }
 
   void OnDrawGizmos() {
@@ -44,7 +49,7 @@ public class LevelManager : MonoBehaviour {
 
   private void readRooms() {
     string roomSeed = File.ReadAllText(Application.dataPath + "/Levels/" + fileName);
-    string[] separators = {"\n\n", "\r\r", "\r\n\r\n"};
+    string[] separators = { "\n\n", "\r\r", "\r\n\r\n" };
     string[] rooms = roomSeed.Split(separators,
                                     StringSplitOptions.RemoveEmptyEntries);
 

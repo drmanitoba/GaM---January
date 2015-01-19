@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class TileManager : MonoBehaviour {
 
   [SerializeField]
+  private Tile emptyTile;
+
+  [SerializeField]
   private Tile dirtBlock;
 
   [SerializeField]
@@ -33,7 +36,7 @@ public class TileManager : MonoBehaviour {
   public void Awake() {
     tileMap = new Dictionary<TileType, Tile>();
 
-    tileMap.Add(TileType.Empty, null);
+    tileMap.Add(TileType.Empty, emptyTile);
     tileMap.Add(TileType.DirtBlock, dirtBlock);
     tileMap.Add(TileType.DirtColumnBottom, dirtColumnBottom);
     tileMap.Add(TileType.DirtColumnTop, dirtColumnTop);

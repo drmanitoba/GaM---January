@@ -27,10 +27,43 @@ public class Room : MonoBehaviour {
   public void BuildRoom(string[] rows) {
     roomTiles = tilesForRoom(rows);
 
+    drawRoom(roomTiles);
+
     // Set room bounds to enacpsulate whole room
     Renderer[] renderers = GetComponentsInChildren<Renderer>();
     foreach (Renderer renderer in renderers) {
       bounds.Encapsulate(renderer.bounds);
+    }
+  }
+
+  private void drawRoom(Tile[][] tiles) {
+    
+    // Get world position of bottom left corner
+    Vector3 bottomLeft = Vector3.zero;
+
+    int xOff;
+    int yOff;
+
+    for (yOff = 0; yOff < ROOM_HEIGHT; yOff++) {
+      Tile[] row = tiles[yOff];
+
+      for (xOff = 0; xOff < ROOM_WIDTH; xOff++) {
+        Tile tile = row[xOff];
+
+        if (tile.type == TileType.Empty) {
+          continue;
+        }
+
+        Tile currentTile;
+
+        Vector3 blockOrigin = new Vector3(bottomLeft.x + (tile.Width / 2), bottomLeft.y + (tile.Height / 2), 0);
+        blockOrigin.x += xOff * tile.Width;
+        blockOrigin.y += yOff * tile.Height;
+        
+        currentTile = (Tile)Instantiate(tile, blockOrigin, Quaternion.identity);
+        
+        currentTile.transform.parent = transform;
+      }
     }
   }
 
@@ -50,32 +83,16 @@ public class Room : MonoBehaviour {
 
   private Tile[] tilesForRow(string row, int rowIdx) {
     int xOff;
-    
-    // Get world position of bottom left corner
-    Vector3 bottomLeft = Vector3.zero;
 
     Tile[] rowTiles = new Tile[ROOM_WIDTH];
 
     for (xOff = 0; xOff < ROOM_WIDTH; xOff++) {
       TileType tileType = getTileType(xOff, rowIdx);
       Tile tilePrefab;
-      Tile currentTile;
           
       tilePrefab = tileManager.GetTile(tileType);
           
       rowTiles[xOff] = tilePrefab;
-
-      if (tilePrefab == null) {
-        continue;
-      }
-          
-      Vector3 blockOrigin = new Vector3(bottomLeft.x + (tilePrefab.Width / 2), bottomLeft.y + (tilePrefab.Height / 2), 0);
-      blockOrigin.x += xOff * tilePrefab.Width;
-      blockOrigin.y += rowIdx * tilePrefab.Height;
-          
-      currentTile = (Tile)Instantiate(tilePrefab, blockOrigin, Quaternion.identity);
-          
-      currentTile.transform.parent = transform;
     }
     
     return rowTiles;
