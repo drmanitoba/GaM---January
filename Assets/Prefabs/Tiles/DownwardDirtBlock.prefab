@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21269206}
   - 61: {fileID: 6169206}
   - 114: {fileID: 11469206}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DownwardDirtBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21203652}
   - 61: {fileID: 6103652}
   - 114: {fileID: 11403652}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DirtTopEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}

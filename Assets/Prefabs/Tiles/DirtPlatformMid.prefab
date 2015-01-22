@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21207562}
   - 61: {fileID: 6107562}
   - 114: {fileID: 11491352}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DirtPlatformMid
   m_TagString: Untagged
   m_Icon: {fileID: 0}

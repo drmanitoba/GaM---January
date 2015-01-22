@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 471996}
   - 212: {fileID: 21271996}
   - 114: {fileID: 11471996}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EmptyTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
