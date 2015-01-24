@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 
 [RequireComponent( typeof( BoxCollider2D ), typeof( Rigidbody2D ) )]
-public class CharacterController2D : MonoBehaviour
+public class CharacterController2D : DisplayObject
 {
 	#region internal types
 
@@ -180,8 +180,9 @@ public class CharacterController2D : MonoBehaviour
 
 	#region Monobehaviour
 
-	void Awake()
-	{
+	protected override void Initialize() {
+    base.Initialize();
+
 		// add our one-way platforms to our normal platform mask so that we can land on them from above
 		platformMask |= oneWayPlatformMask;
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class Room : MonoBehaviour {
@@ -18,22 +19,36 @@ public class Room : MonoBehaviour {
   void Awake() {
     bounds = new Bounds(Vector3.zero, Vector3.zero);
     tileManager = FindObjectOfType<TileManager>();
+    roomTiles = new Tile[ROOM_HEIGHT][];
   }
 
   void OnDrawGizmos() {
-//    Gizmos.DrawWireCube(transform.position + bounds.center, bounds.size);
+    Gizmos.DrawWireCube(transform.position + bounds.center, bounds.size);
   }
 
   public void BuildRoom(string[] rows) {
-    roomTiles = tilesForRoom(rows);
+    Tile[][] tilePrefabs = tilesForRoom(rows);
 
-    drawRoom(roomTiles);
+    drawRoom(tilePrefabs);
 
     // Set room bounds to enacpsulate whole room
     Renderer[] renderers = GetComponentsInChildren<Renderer>();
     foreach (Renderer renderer in renderers) {
       bounds.Encapsulate(renderer.bounds);
     }
+  }
+
+  public Tile TopTileForColumn(int col) {
+    Tile topTile;
+    List<Tile> column = new List<Tile>();
+
+    foreach (Tile[] row in roomTiles) {
+      column.Add(row[col]);
+    }
+
+    topTile = column.FindLast(tile => tile != null && (tile.type == TileType.DirtPlatformMid || tile.type == TileType.DirtColumnTop));
+
+    return topTile;
   }
 
   private void drawRoom(Tile[][] tiles) {
@@ -46,6 +61,7 @@ public class Room : MonoBehaviour {
 
     for (yOff = 0; yOff < ROOM_HEIGHT; yOff++) {
       Tile[] row = tiles[yOff];
+      roomTiles[yOff] = new Tile[ROOM_WIDTH];
 
       for (xOff = 0; xOff < ROOM_WIDTH; xOff++) {
         Tile tile = row[xOff];
@@ -63,6 +79,8 @@ public class Room : MonoBehaviour {
         currentTile = (Tile)Instantiate(tile, blockOrigin, Quaternion.identity);
         
         currentTile.transform.parent = transform;
+
+        roomTiles[yOff][xOff] = currentTile;
       }
     }
   }

@@ -4,6 +4,7 @@ using System.Collections;
 public class Tile : DisplayObject {
 
   public TileType type;
+  public bool DrawCube = false;
 
   private int xOffset;
   private int yOffset;

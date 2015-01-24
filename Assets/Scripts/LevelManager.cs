@@ -8,7 +8,7 @@ using MiniJSON;
 
 public class LevelManager : MonoBehaviour {
 
-  public delegate void LevelInit();
+  public delegate void LevelInit(LevelManager levelManager);
   public static event LevelInit OnLevelInit;
 
   [SerializeField]
@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour {
     initLevel();
 
     if (OnLevelInit != null) {
-      OnLevelInit();
+      OnLevelInit(this);
     }
 //    var dict = Json.Deserialize(jsonString) as Dictionary<string,object>;
   }
@@ -45,6 +45,14 @@ public class LevelManager : MonoBehaviour {
   
   // Update is called once per frame
   void Update() {
+  }
+
+  public Tile GetSpawnTile() {
+    Room firstRoom = rooms[0];
+
+    Tile spawnTile = firstRoom.TopTileForColumn(0);
+
+    return spawnTile;
   }
 
   private void readRooms() {
