@@ -151,6 +151,29 @@ public class CharacterController2D : DisplayObject
 
 	private const float kSkinWidthFloatFudgeFactor = 0.001f;
 
+  private bool falling = false;
+  private bool grabbing = false;
+
+  public bool isFalling {
+    get {
+      return falling;
+    }
+
+    set {
+      falling = value;
+    }
+  }
+
+  public bool isGrabbing {
+    get {
+      return grabbing;
+    }
+    
+    set {
+      grabbing = value;
+    }
+  }
+
 	#endregion
 
 

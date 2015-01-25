@@ -297,8 +297,8 @@ MonoBehaviour:
   gravity: -25
   runSpeed: 4
   groundDamping: 100
-  inAirDamping: 5
-  jumpHeight: 1.70000005
+  inAirDamping: 10
+  jumpHeight: 2
   playerPrefab: {fileID: 11475382, guid: d5f4e0ee48a214e7a88047262efde4e0, type: 2}
 --- !u!4 &745126793
 Transform:
